@@ -1,0 +1,90 @@
+.chatRoom-container{
+  position: relative;
+  float: right;
+  width: 68%;
+}
+.chat-container {
+  background-image: url("bg.png");
+  overflow: hidden;
+ 
+}
+
+.chats {
+  box-sizing: border-box;
+  padding: 0 20px;
+  margin: 10px 0 0;
+  height: 77vh;
+  overflow-y: scroll;
+}
+.headerChat{
+  font-size: 20px;
+  overflow: hidden;
+  background: rgba(37, 221, 212, 0.904);
+  border: 1px solid beige;
+  text-align: center;
+  
+}
+.chats .chat {
+  background: rgba(255, 255, 255, 0.8);
+  position: relative;
+  padding: 5px 13px;
+  font-size: 14px;
+  border-radius: 10px;
+  border: 1px solid black;
+  list-style: none;
+  clear: both;
+  margin-bottom: 10px;
+  min-width: 100px;
+  max-width: 57.5%;
+  float: left;
+  height: auto;
+  word-break: break-all;
+  text-overflow: ellipsis;
+}
+
+.content.left{
+  margin-left: 50px;
+}
+
+.time{
+  float:right;
+  padding: 5px 13px;
+  color: rgb(11, 38, 95);
+}
+
+
+.input {
+  width: 100%;
+  background: transparent;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.input input[type="text"] {
+  background: rgba(255, 255, 255, 0.5);
+  outline: 0;
+  border: 1px solid black;
+  padding: 0 5px;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  margin-left: 1%;
+  margin-right: 2px;
+  height: 30px;
+  width: 88%;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+#submitButton {
+  height: 35px;
+  margin-right: 1%;
+  width: 10%;
+}
+
+
+.input input[type="submit"]:hover {
+  background: #1ee494;
+  color: #fff;
+}
+

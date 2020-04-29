@@ -1,0 +1,54 @@
+.groupList-container {
+  width: 32%;
+  float: left;
+  font-size: 18px;
+}
+
+
+#groupItem {
+  width: 100%;
+  padding: 5px;
+  
+}
+
+#eachGroupItem {
+  height: 38px;
+  float: left;
+  padding:.75rem ;
+  width: calc(100% - 50px);  
+}
+#nameField{
+  width: calc(100% - 160px);
+}
+.leave {
+  width: 50px;
+  height: 38px;
+  float: right;
+  background-color: #a13413;
+  color:white;
+  font-size: 14px;
+}
+.leave:hover {
+  background-color: #74141a;
+}
+.join {
+  width: 50px;
+  height: 38px;
+  float: right;
+  background-color: #1b7ecf;
+  color:white;
+  font-size: 14px;
+}
+.join:hover {
+  background-color: #204570;
+}
+#eachGroupItem:hover {
+  background: #0a6c79;
+  color: #fff;
+}
+
+.btn-sm {
+  width: 50px;
+  height: 38px;
+  padding: 10px;
+}

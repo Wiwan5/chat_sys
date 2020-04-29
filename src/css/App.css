@@ -1,0 +1,36 @@
+.app {
+    text-align: center;
+    background-image: url("bg.png");
+    height: 90vh;
+  }
+  
+  .font_fill{
+    font-family: "Times New Roman";
+     color:#2a4043;
+  }
+
+  .login_container{
+    padding: 25px;
+    width: 500px;
+    height: 40vh;
+    border: whitesmoke solid 2px;
+    border-radius: 1rem;
+    background-color: #d0e6ec;
+    margin-top: 30vh;
+    display: inline-block;
+    text-align: center;
+  }
+  
+  .t1{
+    margin-top: 10 px;
+  }  
+
+  .navbar {
+    height: 10vh;
+    overflow: hidden;
+    background-color:#d0e6ec;
+  }
+
+  
+
+  
