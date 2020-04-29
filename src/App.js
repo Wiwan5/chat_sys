@@ -14,10 +14,10 @@ class App extends Component {
     this.state = {
       currentPage: "Login",
       username: "",
-      currentGroup: "Not in group.",
-      isJoinGroupList: [], // [true, false, true],
-      groupList: [], //["Group1", "Group2", "Group3"],
-      allChats: { // If want dummy ,GO copy from past it's too long
+      currentGroup: "Not in group",
+      isJoinGroupList: [], 
+      groupList: [], 
+      allChats: { 
       }
     };
     // Socket Things --------------------------------
@@ -103,7 +103,7 @@ class App extends Component {
             <NavBar
               updateUsername={this.updateUsername}
               username={this.state.username}
-              currentGroup={this.state.currentGroup}
+              updateCurrentGroup={this.updateCurrentGroup}
               currentPage={this.state.currentPage}
               updateCurrentPage={this.updateCurrentPage}
               SocketEmit={this.SocketEmit}
@@ -117,6 +117,7 @@ class App extends Component {
               updateIsJoinGroupList={this.updateIsJoinGroupList}
               updateCurrentGroup={this.updateCurrentGroup}
               SocketEmit={this.SocketEmit}
+              allChats={this.state.allChats}
             />
             <ChatRoom
               currentPage={this.state.currentPage}
@@ -129,9 +130,6 @@ class App extends Component {
             />
           </div>
       </div>
-      // <div>
-      //   { 
-      //    this.state.currentPage === "Chat" ? (
       
 
      

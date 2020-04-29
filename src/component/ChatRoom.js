@@ -15,7 +15,7 @@ class ChatRoom extends Component {
       <div>
           <div className="chatRoom-container">
             <div className="headerChat">
-              <p>{"Group Chat: "+this.props.currentGroup}</p>
+              <p>{this.props.currentGroup}</p>
             </div>
             <div className="chat-container" id="scrollc">
               <div className="chatbox-container">
@@ -23,9 +23,10 @@ class ChatRoom extends Component {
                   {this.props.allChats[this.props.currentGroup] &&
                   this.checkJoinStatus(this.props.currentGroup)
                     ? this.props.allChats[this.props.currentGroup].map(chat => (
-                      <li ><p className="chat">{chat.username}:  {chat.content}</p>
-                          <p className ="time">{chat.timeStamp}</p>
-                      </li>
+                      <div>
+                      <p className="chat">{chat.username}:  {chat.content}</p>
+                      <p className ="time">{chat.timeStamp}</p>
+                      </div>
                       ))
                     : null}
                 </ul>

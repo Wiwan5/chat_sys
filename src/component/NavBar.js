@@ -12,7 +12,7 @@ class NavBar extends Component {
                 onClick={e => {
                   this.props.updateUsername("");
                   this.props.updateCurrentPage("Login");
-                  
+                  this.props.updateCurrentGroup("Not in group");
                 }}
               >
                 Logout
@@ -21,7 +21,7 @@ class NavBar extends Component {
         ):(
           <div className="navbar">
             <h4 className ="font_header">
-              Stay Home #อยู่บ้าน หยุดเชื่อ เพื่อชาติ
+            มะล้องก้องแก้งมะแลงก้องก้อง #อยู่บ้าน หยุดเชื่อ เพื่อชาติ
           </h4> 
           <input
             className="btn btn-success"
@@ -33,7 +33,7 @@ class NavBar extends Component {
               else{
               this.props.updateUsername(enteredName);
               this.props.updateCurrentPage("Chat");
-              this.props.SocketEmit('enter',enteredName);
+              this.props.SocketEmit('login',enteredName);
             }
             }}
           />

@@ -15,7 +15,7 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', () => { console.log('DB connected!')});
 //db.dropDatabase();
 
-function userEnter(data,socket) { //data = username "Dongglue"}
+function login(data,socket) { //data = username "Dongglue"}
   console.log(data);
   User.find({name:data},function(err,users){
     if(err) {console.log(err);}
@@ -33,28 +33,33 @@ function userEnter(data,socket) { //data = username "Dongglue"}
 function EmitGroupInfo(username,socket){
 
   var groupListInfo = [] ;
+  var isJoingroupListInfo = [];
+  let k=0;
   Group.find({},function(err,data){
+    // console.log("Group");
+    // console.log(data);
     data.forEach(function(element) { 
-      groupListInfo.push(element.name);
-    })
-    var isJoingroupListInfo = [];
-    let k = 0;      
-    groupListInfo.forEach(function(element){
-      JoinedGroupInfo.find({username:username,groupname:element},function(err,data){
-        if (data.length == 0) {
-          isJoingroupListInfo.push(false);
-        } else {
-          isJoingroupListInfo.push(true);
-        }
-        k += 1; 
-        if(k==groupListInfo.length){
+        JoinedGroupInfo.find({username:username,groupname:element.name},function(err,data1){
+          // console.log("element");
+          // console.log(element);
+          groupListInfo.push(element.name);
+          if (!data1.length) {
+            isJoingroupListInfo.push(false);
+          } else {
+            isJoingroupListInfo.push(true);
+          }
+          k+=1;
+          if(k==data.length){
+            console.log('emit groupList')
+            // console.log(isJoingroupListInfo);
           socket.emit("updateIsJoined",{groupList:groupListInfo, isJoinGroupList:isJoingroupListInfo});
-          console.log({groupList:groupListInfo, isJoinGroupList:isJoingroupListInfo})
-          console.log('emit groupList')
-        }
-      })
-    })
-  })
+            console.log({groupList:groupListInfo, isJoinGroupList:isJoingroupListInfo})
+  
+          }
+        })    
+    });
+  });
+  
 
 }
 
@@ -112,13 +117,13 @@ io.on('connection', function (socket) {
   console.log('a user connected');
 
   // After click enter button , data = username 
-  socket.on('enter', function (data) {
-    console.log('>>Received [login] event!>>username');  
-    userEnter(data,socket);
+  socket.on('login', function (data) {
+    console.log('login :username');  
+    login(data,socket);
   });
   
   socket.on('sendMessage', function(data){ // data = {userName,GroupName,timestamp,text}
-    console.log('>>Received [sendMessage] event!');
+    console.log('sendMessage:');
     console.log(data);
     var newMessage = new Message(data)
     newMessage.save(function(err){
@@ -127,18 +132,25 @@ io.on('connection', function (socket) {
     });
   })
   socket.on('joinGroup', function(data){ //data = {username:'dongglue',groupname:'3L'}
-      console.log('>>Received [joinGroup] event!');
+      console.log('joinGroup:');
       console.log(data);
-      var joinNewGroup = new JoinedGroupInfo({username:data.username,groupname:data.groupname})
-      joinNewGroup.save(function(err){
-        if (err) {return err;}
-        EmitGroupInfo(data.username,socket);
-      });
+      JoinedGroupInfo.find({groupname:data.groupname},function(err,groups){
+        if(err) {console.log(err);}
+        // TODO [DB] : Create user if not existed
+        if(!groups.length) { // user == [] อันนี้เขียนๆไปก่อน ไม่รู้ js เช๊คไง
+          var joinNewGroup = new JoinedGroupInfo({username:data.username,groupname:data.groupname})
+          joinNewGroup.save(function(err){
+          if (err) {return err;}
+          EmitGroupInfo(data.username,socket);
+           });
+        }
+      })
+      
       
     })
     
   socket.on('leaveGroup', function(data){//data = {username:'dongglue',groupname:'3L'}
-      console.log('>>Received [leaveGroup] event!');
+      console.log('leaveGroup:');
       console.log(data);
       JoinedGroupInfo.deleteMany(data,function(err){
         if (err) {return err;}
@@ -148,7 +160,7 @@ io.on('connection', function (socket) {
     })
   
   socket.on('createGroup', function(data){ //data = {username:'dongglue',groupname:'3L'}
-      console.log('>>Received [createGroup] event!');
+      console.log('createGroup:');
       console.log(data);
       Group.find({name:data.groupname},function(err,groups){
         if(err) {console.log(err);}
@@ -157,7 +169,7 @@ io.on('connection', function (socket) {
           new Group({name:data.groupname}).save(function(err){
             if (err) {return err;} 
             console.log('New Group')       
-            io.emit('notifyNewGroup',"eiei")
+            io.emit('notifyNewGroup')
           });
           var newGroupJoin = new JoinedGroupInfo({username:data.username,groupname:data.groupname});
           newGroupJoin.save();
