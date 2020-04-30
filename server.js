@@ -41,11 +41,11 @@ EmitGroupInfo = (username, socket) => {
   let k = 0;
   Group.find({}, function (err, data) {
     data.forEach(function (element) {
-      JoinedGroupInfo.find(
+      JoinedGroupInfo.findOne(
         { username: username, groupname: element.name },
-        function (err, data) {
+        function (err, data1) {
           groups.push(element.name);
-          if (!data.length) {
+          if (!data1) {
             isJoingroup.push(false);
           } else {
             isJoingroup.push(true);
