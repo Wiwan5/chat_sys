@@ -89,6 +89,39 @@ class App extends Component {
   }
 
   render() {
+    let page =
+      this.state.currentPage == "Chat" ? (
+        <div class="row">
+          <div class="col-sm-5 border" style={{ backgroundColor: "peachpuff" }}>
+            <ChatGroupList
+              currentPage={this.state.currentPage}
+              currentGroup={this.state.currentGroup}
+              username={this.state.username}
+              isJoinGroupList={this.state.isJoinGroupList}
+              groupList={this.state.groupList}
+              updateIsJoinGroupList={this.updateIsJoinGroupList}
+              updateCurrentGroup={this.updateCurrentGroup}
+              SocketEmit={this.SocketEmit}
+              allChats={this.state.allChats}
+            />
+          </div>
+          <div class="col-sm-7 border" style={{ backgroundColor: "khaki" }}>
+            <ChatRoom
+              currentPage={this.state.currentPage}
+              currentGroup={this.state.currentGroup}
+              username={this.state.username}
+              isJoinGroupList={this.state.isJoinGroupList}
+              groupList={this.state.groupList}
+              allChats={this.state.allChats}
+              submitMessage={this.submitMessage}
+            />
+          </div>
+        </div>
+      ) : (
+        <div class="app">
+          <div class="text">Let's Chat</div>
+        </div>
+      );
     return (
       <div>
         <div class="row">
@@ -103,32 +136,7 @@ class App extends Component {
             />
           </div>
         </div>
-        <div class="row">
-          <div class="col-sm-5 border" style= {{backgroundColor: "peachpuff"}} >
-            <ChatGroupList
-              currentPage={this.state.currentPage}
-              currentGroup={this.state.currentGroup}
-              username={this.state.username}
-              isJoinGroupList={this.state.isJoinGroupList}
-              groupList={this.state.groupList}
-              updateIsJoinGroupList={this.updateIsJoinGroupList}
-              updateCurrentGroup={this.updateCurrentGroup}
-              SocketEmit={this.SocketEmit}
-              allChats={this.state.allChats}
-            />
-          </div>
-          <div class="col-sm-7 border" style= {{backgroundColor: "khaki"}}>
-            <ChatRoom
-              currentPage={this.state.currentPage}
-              currentGroup={this.state.currentGroup}
-              username={this.state.username}
-              isJoinGroupList={this.state.isJoinGroupList}
-              groupList={this.state.groupList}
-              allChats={this.state.allChats}
-              submitMessage={this.submitMessage}
-            />
-          </div>
-        </div>
+        {page}
       </div>
     );
   }

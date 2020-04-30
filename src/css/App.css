@@ -3,7 +3,7 @@
   background-image: url("bg3.jpg");
   overflow: hidden;
   background-size: cover;
-  display: inline;
+  height: 90vh;
 }
 .text {
   position: absolute;
