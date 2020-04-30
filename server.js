@@ -18,26 +18,22 @@ db.once("open", () => {
 });
 //db.dropDatabase();
 
-function login(data, socket) {
-  //data = username "Dongglue"}
+function login(data,socket) { //data = username }
   console.log(data);
-  User.find({ name: data }, function (err, users) {
-    if (err) {
-      console.log(err);
-    }
-    // TODO [DB] : Create user if not existed
-    if (!users.length) {
-      // user == [] อันนี้เขียนๆไปก่อน ไม่รู้ js เช๊คไง
-      console.log(">>> Create New User");
-      var newUser = new User({ name: data });
+  User.find({name:data},function(err,users){
+    if(err) {console.log(err);}
+    
+    if(!users.length) { 
+      console.log('>>> Create New User')
+      var newUser = new User({name:data});
       newUser.save();
     }
-    EmitAllChats(socket);
-    EmitGroupInfo(data, socket);
+    resChats(socket);
+    resGroup(data, socket);
   });
 }
 
-function EmitGroupInfo(username, socket) {
+function resGroup(username, socket) {
   var groupListInfo = [];
   var isJoingroupListInfo = [];
   let k = 0;
@@ -75,7 +71,7 @@ function EmitGroupInfo(username, socket) {
   });
 }
 
-function EmitAllChats(socket) {
+function resChats(socket) {
   var allChats = {};
   var allChat = [];
   Group.find({}, function (err, allGroups) {
@@ -108,14 +104,14 @@ function EmitAllChats(socket) {
   });
 }
 
-function BroadcastAllChats(socket) {
+function broadcastChats(socket) {
   var allChats = {};
   var allChat = [];
+  let j = 0;
   Group.find({}, function (err, allGroups) {
     allGroups.forEach(function (data) {
       allChat.push(data.name);
-    });
-    let j = 0;
+    });  
     allChat.forEach(function (data) {
       Message.find({ groupName: data })
         .sort("timestamp")
@@ -157,7 +153,7 @@ io.on("connection", function (socket) {
       if (err) {
         return err;
       }
-      BroadcastAllChats(socket);
+      broadcastChats(socket);
     });
   });
   socket.on("joinGroup", function (data) {
@@ -182,7 +178,7 @@ io.on("connection", function (socket) {
             if (err) {
               return err;
             }
-            EmitGroupInfo(data.username, socket);
+            resGroup(data.username, socket);
           });
         }
       }
@@ -197,7 +193,7 @@ io.on("connection", function (socket) {
       if (err) {
         return err;
       }
-      EmitGroupInfo(data.username, socket);
+      resGroup(data.username, socket);
     });
   });
 
@@ -211,13 +207,12 @@ io.on("connection", function (socket) {
       }
       // TODO [DB] : Create user if not existed
       if (!groups.length) {
-        // user == [] อันนี้เขียนๆไปก่อน ไม่รู้ js เช๊คไง
         new Group({ name: data.groupname }).save(function (err) {
           if (err) {
             return err;
           }
           console.log("New Group");
-          io.emit("notifyNewGroup");
+          resGroup(data.username, socket);
         });
         var newGroupJoin = new JoinedGroupInfo({
           username: data.username,
@@ -226,10 +221,6 @@ io.on("connection", function (socket) {
         newGroupJoin.save();
       }
     });
-  });
-  socket.on("getUpdateIsjoin", function (data) {
-    // data = username
-    EmitGroupInfo(data, socket);
   });
   socket.on("disconnect", function () {
     io.emit("a user disconnected");

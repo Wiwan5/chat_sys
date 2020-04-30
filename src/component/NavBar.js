@@ -29,11 +29,11 @@ class NavBar extends Component {
             value="Login"
             onClick={(event) => {
               const enteredName = prompt('Please enter your name');
-              if(enteredName == null || enteredName === ""){}
+              if(enteredName == null || enteredName.trim().length <= 0){}
               else{
-              this.props.updateUsername(enteredName);
+              this.props.updateUsername(enteredName.trim());
               this.props.updateCurrentPage("Chat");
-              this.props.SocketEmit('login',enteredName);
+              this.props.SocketEmit('login',enteredName.trim());
             }
             }}
           />
