@@ -72,7 +72,6 @@ class ChatGroupList extends Component {
                     if(tmp[0] === "leave") {
                       this.props.SocketEmit('leaveGroup',{username:this.props.username,groupname:tmp[1]});
                       if(this.props.currentGroup === tmp[1]) this.props.updateCurrentGroup("Not in group");
-                      this.props.allChats[this.props.currentGroup] = [];
                       
                     } else if (tmp[0] === "join"){
                       this.props.SocketEmit('joinGroup',{username:this.props.username,groupname:tmp[1]}); 

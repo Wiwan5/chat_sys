@@ -9,18 +9,18 @@ const JoinedGroupInfo = require('./models/groupjoinedinfo');
 const Message = require('./models/message');
 
 // DB ---------------------------------------------------------------------------
-mongoose.connect('mongodb://localhost/test',{ useNewUrlParser: true }); // test =  database name
+mongoose.connect('mongodb://localhost/test',{ useNewUrlParser: true });
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', () => { console.log('DB connected!')});
 //db.dropDatabase();
 
-function login(data,socket) { //data = username "Dongglue"}
+function login(data,socket) { //data = username }
   console.log(data);
   User.find({name:data},function(err,users){
     if(err) {console.log(err);}
-    // TODO [DB] : Create user if not existed
-    if(!users.length) { // user == [] อันนี้เขียนๆไปก่อน ไม่รู้ js เช๊คไง
+    
+    if(!users.length) { 
       console.log('>>> Create New User')
       var newUser = new User({name:data});
       newUser.save();
@@ -131,13 +131,12 @@ io.on('connection', function (socket) {
       BroadcastAllChats(socket);
     });
   })
-  socket.on('joinGroup', function(data){ //data = {username:'dongglue',groupname:'3L'}
+  socket.on('joinGroup', function(data){ //data = {username:,groupname:}
       console.log('joinGroup:');
       console.log(data);
       JoinedGroupInfo.find({groupname:data.groupname},function(err,groups){
         if(err) {console.log(err);}
-        // TODO [DB] : Create user if not existed
-        if(!groups.length) { // user == [] อันนี้เขียนๆไปก่อน ไม่รู้ js เช๊คไง
+        if(!groups.length) {
           var joinNewGroup = new JoinedGroupInfo({username:data.username,groupname:data.groupname})
           joinNewGroup.save(function(err){
           if (err) {return err;}
@@ -149,7 +148,7 @@ io.on('connection', function (socket) {
       
     })
     
-  socket.on('leaveGroup', function(data){//data = {username:'dongglue',groupname:'3L'}
+  socket.on('leaveGroup', function(data){//data = {username:,groupname:}
       console.log('leaveGroup:');
       console.log(data);
       JoinedGroupInfo.deleteMany(data,function(err){
@@ -159,17 +158,16 @@ io.on('connection', function (socket) {
       
     })
   
-  socket.on('createGroup', function(data){ //data = {username:'dongglue',groupname:'3L'}
+  socket.on('createGroup', function(data){ //data = {username:,groupname:}
       console.log('createGroup:');
       console.log(data);
       Group.find({name:data.groupname},function(err,groups){
         if(err) {console.log(err);}
-        // TODO [DB] : Create user if not existed
-        if(!groups.length) { // user == [] อันนี้เขียนๆไปก่อน ไม่รู้ js เช๊คไง
+        if(!groups.length) { 
           new Group({name:data.groupname}).save(function(err){
             if (err) {return err;} 
             console.log('New Group')       
-            io.emit('notifyNewGroup')
+            EmitGroupInfo(data.username,socket);
           });
           var newGroupJoin = new JoinedGroupInfo({username:data.username,groupname:data.groupname});
           newGroupJoin.save();
@@ -178,9 +176,7 @@ io.on('connection', function (socket) {
      
       
   })
-  socket.on('getUpdateIsjoin',function(data){ // data = username
-      EmitGroupInfo(data,socket);
-  })
+ 
   socket.on('disconnect', function () {
     io.emit('a user disconnected');
     console.log('a user diconnected //socket')

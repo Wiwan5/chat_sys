@@ -29,7 +29,7 @@ class NavBar extends Component {
             value="Login"
             onClick={(event) => {
               const enteredName = prompt('Please enter your name');
-              if(enteredName == null || enteredName === ""){}
+              if(enteredName == null || enteredName.trim().length <= 0){}
               else{
               this.props.updateUsername(enteredName);
               this.props.updateCurrentPage("Chat");
