@@ -20,7 +20,7 @@ class App extends Component {
       allChats: { 
       }
     };
-    // Socket Things --------------------------------
+    
     this.socket = openSocket('http://localhost:8000');
     console.log('A socket created [App.js]')
     const me = this;
@@ -37,14 +37,9 @@ class App extends Component {
       me.setState({...me.state, groupList:data.groupList, isJoinGroupList:data.isJoinGroupList })
       console.log(me.state)
     })
-    this.socket.on('notifyNewGroup',function(data){ // event after create group, getAllchats is broadcast after create group too
-      console.log('Received [notifyNewGroup] event')
-      me.socket.emit('getUpdateIsjoin',me.state.username) // 
-    })
     
     this.SocketEmit = this.SocketEmit.bind(this);
-    // End Socket Things ----------------------------
-    
+        
     this.updateUsername = this.updateUsername.bind(this);
     this.updateCurrentPage = this.updateCurrentPage.bind(this);
     this.updateCurrentGroup = this.updateCurrentGroup.bind(this);
@@ -77,14 +72,11 @@ class App extends Component {
     });
   }
   
- 
-
-  //------ north add ja -----//
   updateIsJoinGroupList(newList){
     this.setState({isJoinGroupList:newList});
   }
 
-  //---------------------ChatPanel------------------------
+  
   submitMessage(message) {
     var mess = {  userName: this.state.username,
       groupName: this.state.currentGroup, 
