@@ -21,15 +21,14 @@ db.on("connected", () => {
 login = (data, socket) => {
   //data = username }
   console.log(data);
-  User.find({ name: data }, function (err, users) {
+  User.findOne({ name: data }, async function (err, users) {
     if (err) {
       console.log(err);
     }
 
-    if (!users.length) {
+    if (!users) {
       console.log(">>> Create New User");
-      var newUser = new User({ name: data });
-      newUser.save();
+      var newUser = await User.create({ name: data });
     }
     EmitAllChats(socket);
     EmitGroupInfo(data, socket);
@@ -37,35 +36,30 @@ login = (data, socket) => {
 };
 
 EmitGroupInfo = (username, socket) => {
-  var groupListInfo = [];
-  var isJoingroupListInfo = [];
+  var groups = [];
+  var isJoingroup = [];
   let k = 0;
   Group.find({}, function (err, data) {
-    // console.log("Group");
-    // console.log(data);
     data.forEach(function (element) {
       JoinedGroupInfo.find(
         { username: username, groupname: element.name },
-        function (err, data1) {
-          // console.log("element");
-          // console.log(element);
-          groupListInfo.push(element.name);
-          if (!data1.length) {
-            isJoingroupListInfo.push(false);
+        function (err, data) {
+          groups.push(element.name);
+          if (!data.length) {
+            isJoingroup.push(false);
           } else {
-            isJoingroupListInfo.push(true);
+            isJoingroup.push(true);
           }
           k += 1;
           if (k == data.length) {
             console.log("emit groupList");
-            // console.log(isJoingroupListInfo);
             socket.emit("updateIsJoined", {
-              groupList: groupListInfo,
-              isJoinGroupList: isJoingroupListInfo,
+              groupList: groups,
+              isJoinGroupList: isJoingroup,
             });
             console.log({
-              groupList: groupListInfo,
-              isJoinGroupList: isJoingroupListInfo,
+              groupList: groups,
+              isJoinGroupList: isJoingroup,
             });
           }
         }
