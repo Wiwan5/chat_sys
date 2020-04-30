@@ -62,7 +62,7 @@ class ChatGroupList extends Component {
           </div>
         </div>
         <br />
-        <ul className="list-group" >
+        <ul className="list-group">
           {this.props.groupList.map(function (listvalue) {
             return (
               <div key={listvalue}>
@@ -76,7 +76,6 @@ class ChatGroupList extends Component {
                   }}
                 >
                   {listvalue}
-                  {this.checkJoinStatus(listvalue, " (Joined)", " (Not-Join)")}
                 </li>
                 <button
                   type="submit"
