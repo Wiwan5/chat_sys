@@ -124,7 +124,7 @@ broadcastChats = (socket) => {
           j += 1;
           if (j == allChat.length) {
             console.log(allChats);
-            io.emit("updateAllChats", allChats);
+            socket.emit("updateAllChats", allChats);
             console.log("BroadcastAllChat");
           }
         });
