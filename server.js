@@ -18,7 +18,7 @@ db.on("connected", () => {
 });
 //db.dropDatabase();
 
-function login(data, socket) {
+login = (data, socket) => {
   //data = username }
   console.log(data);
   User.find({ name: data }, function (err, users) {
@@ -34,9 +34,9 @@ function login(data, socket) {
     EmitAllChats(socket);
     EmitGroupInfo(data, socket);
   });
-}
+};
 
-function EmitGroupInfo(username, socket) {
+EmitGroupInfo = (username, socket) => {
   var groupListInfo = [];
   var isJoingroupListInfo = [];
   let k = 0;
@@ -72,9 +72,9 @@ function EmitGroupInfo(username, socket) {
       );
     });
   });
-}
+};
 
-function EmitAllChats(socket) {
+EmitAllChats = (socket) => {
   var allChats = {};
   var allChat = [];
   Group.find({}, function (err, allGroups) {
@@ -105,9 +105,9 @@ function EmitAllChats(socket) {
         });
     });
   });
-}
+};
 
-function BroadcastAllChats(socket) {
+BroadcastAllChats = (socket) => {
   var allChats = {};
   var allChat = [];
   Group.find({}, function (err, allGroups) {
@@ -136,7 +136,7 @@ function BroadcastAllChats(socket) {
         });
     });
   });
-}
+};
 
 io.on("connection", function (socket) {
   console.log("a user connected");
