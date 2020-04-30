@@ -96,7 +96,6 @@ class ChatGroupList extends Component {
                         });
                         if (this.props.currentGroup === tmp[1])
                           this.props.updateCurrentGroup("Not in group");
-                        //this.props.allChats[this.props.currentGroup] = [];
                       } else if (tmp[0] === "join") {
                         this.props.SocketEmit("joinGroup", {
                           username: this.props.username,
@@ -115,9 +114,13 @@ class ChatGroupList extends Component {
           <br />
         </div>
       </div>
-    ) : (
-      <div class="app"></div>
-    );
+    ) :(<div class="app">
+    <div class = "text"> 
+      Let's Chat
+    </div>
+    
+    </div>);
+  
   }
 }
 
