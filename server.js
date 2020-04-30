@@ -13,19 +13,22 @@ require("dotenv").config();
 mongoose.connect(process.env.MONGO_DB, { useNewUrlParser: true }); // test =  database name
 var db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
-db.once("open", () => {
-  console.log("DB connected!");
+db.on("connected", () => {
+  console.log("database connected");
 });
 //db.dropDatabase();
 
-function login(data,socket) { //data = username }
+function login(data, socket) {
+  //data = username }
   console.log(data);
-  User.find({name:data},function(err,users){
-    if(err) {console.log(err);}
-    
-    if(!users.length) { 
-      console.log('>>> Create New User')
-      var newUser = new User({name:data});
+  User.find({ name: data }, function (err, users) {
+    if (err) {
+      console.log(err);
+    }
+
+    if (!users.length) {
+      console.log(">>> Create New User");
+      var newUser = new User({ name: data });
       newUser.save();
     }
     EmitAllChats(socket);
