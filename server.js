@@ -101,7 +101,7 @@ resChats = (socket) => {
   });
 };
 
-BroadcastAllChats = (socket) => {
+broadcastChats = (socket) => {
   var allChats = {};
   var allChat = [];
   let j = 0;
