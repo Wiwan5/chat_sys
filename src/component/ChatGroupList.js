@@ -20,14 +20,14 @@ class ChatGroupList extends Component {
 
   render() {
     return this.props.currentPage === "Chat" ? (
-      <div class="p-3 mb-2 bg-light text-dark">
-        <div class="row">
-          <div class="col-sm-3-border">
+      <div class="p-4 mb-2">
+        <div class="row" >
+          <div class="col-md-3-border ">
             <label style={{ padding: "10px" }} for="groupList">
               Group Name
             </label>
           </div>
-          <div class="col-sm-7-border">
+          <div class="col-md-7-border">
             <input
               style={{ width: "320px", padding: "10px" }}
               type="text"
@@ -36,10 +36,10 @@ class ChatGroupList extends Component {
               id="nameField"
             />
           </div>
-          <div class="col-sm-2-border">
+          <div class="col-md-2-border">
             <div style={{ paddingRight: "10px", paddingLeft: "10px" }}>
               <Button
-                variant="outline-success"
+                className="btn btn-success"
                 type="submit"
                 onClick={(e) => {
                   if (
@@ -62,56 +62,58 @@ class ChatGroupList extends Component {
           </div>
         </div>
         <br />
-        <ul className="list-group">
-          {this.props.groupList.map(function (listvalue) {
-            return (
-              <div key={listvalue}>
-                <li
-                  className="list-group-item"
-                  id="eachGroupItem"
-                  onClick={(e) => {
-                    if (this.isJoin(listvalue)) {
-                      this.props.updateCurrentGroup(listvalue);
+        <div class="p-3 mb-2 text-black">
+          <ul className="list-group">
+            {this.props.groupList.map(function (listvalue) {
+              return (
+                <div key={listvalue}>
+                  <li
+                    className="list-group-item"
+                    id="eachGroupItem"
+                    onClick={(e) => {
+                      if (this.isJoin(listvalue)) {
+                        this.props.updateCurrentGroup(listvalue);
+                      }
+                    }}
+                  >
+                    {listvalue}
+                  </li>
+                  <button
+                    type="submit"
+                    className={this.checkJoinStatus(listvalue, "leave", "join")}
+                    value={
+                      this.checkJoinStatus(listvalue, "leave", "join") +
+                      "_" +
+                      listvalue
                     }
-                  }}
-                >
-                  {listvalue}
-                </li>
-                <button
-                  type="submit"
-                  className={this.checkJoinStatus(listvalue, "leave", "join")}
-                  value={
-                    this.checkJoinStatus(listvalue, "leave", "join") +
-                    "_" +
-                    listvalue
-                  }
-                  onClick={(e) => {
-                    var tmp = e.target.value.split("_");
-                    console.log(tmp);
-                    if (tmp[0] === "leave") {
-                      this.props.SocketEmit("leaveGroup", {
-                        username: this.props.username,
-                        groupname: tmp[1],
-                      });
-                      if (this.props.currentGroup === tmp[1])
-                        this.props.updateCurrentGroup("Not in group");
-                      //this.props.allChats[this.props.currentGroup] = [];
-                    } else if (tmp[0] === "join") {
-                      this.props.SocketEmit("joinGroup", {
-                        username: this.props.username,
-                        groupname: tmp[1],
-                      });
-                      this.props.updateCurrentGroup(tmp[1]);
-                    }
-                  }}
-                >
-                  {this.checkJoinStatus(listvalue, "leave", "join")}
-                </button>
-              </div>
-            );
-          }, this)}
-        </ul>
-        <br />
+                    onClick={(e) => {
+                      var tmp = e.target.value.split("_");
+                      console.log(tmp);
+                      if (tmp[0] === "leave") {
+                        this.props.SocketEmit("leaveGroup", {
+                          username: this.props.username,
+                          groupname: tmp[1],
+                        });
+                        if (this.props.currentGroup === tmp[1])
+                          this.props.updateCurrentGroup("Not in group");
+                        //this.props.allChats[this.props.currentGroup] = [];
+                      } else if (tmp[0] === "join") {
+                        this.props.SocketEmit("joinGroup", {
+                          username: this.props.username,
+                          groupname: tmp[1],
+                        });
+                        this.props.updateCurrentGroup(tmp[1]);
+                      }
+                    }}
+                  >
+                    {this.checkJoinStatus(listvalue, "leave", "join")}
+                  </button>
+                </div>
+              );
+            }, this)}
+          </ul>
+          <br />
+        </div>
       </div>
     ) : (
       <div class="app"></div>

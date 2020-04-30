@@ -17,26 +17,32 @@ class App extends Component {
       groupList: [],
       allChats: {},
     };
-    
-    this.socket = openSocket('http://localhost:8000');
-    console.log('A socket created [App.js]')
+
+    this.socket = openSocket("http://localhost:8000");
+    console.log("A socket created [App.js]");
     const me = this;
-    
-    this.socket.on('updateAllChats',function(data) { // Have setstate
-      console.log('Received [updateAllChats] event!')
-      console.log(data)
-      me.setState({...me.state, allChats:data});
-      console.log(me.state)
-    })
-    this.socket.on('updateIsJoined', function(data){ // Have setState
-      console.log('Received [updateIsJoin] event')
-      console.log(data)
-      me.setState({...me.state, groupList:data.groupList, isJoinGroupList:data.isJoinGroupList })
-      console.log(me.state)
-    })
-    
+
+    this.socket.on("updateAllChats", function (data) {
+      // Have setstate
+      console.log("Received [updateAllChats] event!");
+      console.log(data);
+      me.setState({ ...me.state, allChats: data });
+      console.log(me.state);
+    });
+    this.socket.on("updateIsJoined", function (data) {
+      // Have setState
+      console.log("Received [updateIsJoin] event");
+      console.log(data);
+      me.setState({
+        ...me.state,
+        groupList: data.groupList,
+        isJoinGroupList: data.isJoinGroupList,
+      });
+      console.log(me.state);
+    });
+
     this.SocketEmit = this.SocketEmit.bind(this);
-        
+
     this.updateUsername = this.updateUsername.bind(this);
     this.updateCurrentPage = this.updateCurrentPage.bind(this);
     this.updateCurrentGroup = this.updateCurrentGroup.bind(this);
@@ -65,12 +71,11 @@ class App extends Component {
       currentGroup: value,
     });
   }
-  
-  updateIsJoinGroupList(newList){
-    this.setState({isJoinGroupList:newList});
+
+  updateIsJoinGroupList(newList) {
+    this.setState({ isJoinGroupList: newList });
   }
 
-  
   submitMessage(message) {
     var mess = {
       userName: this.state.username,
@@ -87,7 +92,7 @@ class App extends Component {
     return (
       <div>
         <div class="row">
-          <div class="col-sm-12">
+          <div class="col-sm-12" align="center">
             <NavBar
               updateUsername={this.updateUsername}
               username={this.state.username}
@@ -99,7 +104,7 @@ class App extends Component {
           </div>
         </div>
         <div class="row">
-          <div class="col-sm-5">
+          <div class="col-sm-5 border" style= {{backgroundColor: "peachpuff"}} >
             <ChatGroupList
               currentPage={this.state.currentPage}
               currentGroup={this.state.currentGroup}
@@ -112,7 +117,7 @@ class App extends Component {
               allChats={this.state.allChats}
             />
           </div>
-          <div class="col-sm-7">
+          <div class="col-sm-7 border" style= {{backgroundColor: "khaki"}}>
             <ChatRoom
               currentPage={this.state.currentPage}
               currentGroup={this.state.currentGroup}
