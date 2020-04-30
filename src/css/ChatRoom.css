@@ -1,12 +1,12 @@
 .chatRoom-container{
-  position: relative;
+  position: center;
   float: right;
-  width: 68%;
+   width: 68%; 
 }
 .chat-container {
-  background-image: url("bg.png");
+  background-image: url("bgblue.png");
+  background-size: cover;
   overflow: hidden;
- 
 }
 
 .chats {
@@ -19,8 +19,10 @@
 .headerChat{
   font-size: 20px;
   overflow: hidden;
-  background: rgba(37, 221, 212, 0.904);
-  border: 1px solid beige;
+  background: rgba(123, 202, 255, 0.904);
+  /* opacity: 0.7; */
+  border: 1px solid rgb(251, 248, 248);
+  color: solid white;
   text-align: center;
   
 }

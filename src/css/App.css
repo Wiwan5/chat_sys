@@ -1,7 +1,9 @@
 .app {
     text-align: center;
-    background-image: url("bg.png");
-    height: 90vh;
+    background-image: url("bg3.jpg");
+    height: 90vh; 
+    background-size: cover;
+
   }
   
   .font_fill{
@@ -30,6 +32,15 @@
     overflow: hidden;
     background-color:#d0e6ec;
   }
+  h1 {
+    text-align: center;
+    text-transform: uppercase;
+    color: #4CAF50;
+  }
+  <div>
+      <h1>text formatting</h1>
+  </div>
+  
 
   
 
