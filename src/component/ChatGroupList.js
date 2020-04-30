@@ -87,7 +87,12 @@ class ChatGroupList extends Component {
           }, this)}
         </ul>
       </div>
-    ) :(<div class="app"></div>);
+    ) :(<div class="app">
+    <div class = "text"> 
+      Let's Chat
+    </div>
+    
+    </div>);
   
   }
 }

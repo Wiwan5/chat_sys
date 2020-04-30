@@ -6,6 +6,17 @@
     background-size: cover;
 
   }
+  .text {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%); 
+    text-align: center;
+    color: rgb(9, 35, 68);
+    font-size: 200px;
+    text-shadow: 5px 5px 5px rgb(102, 171, 236);
+    font-family:"Avenir Next Condensed";
+  }
   
   .font_fill{
     font-family: "Times New Roman";
@@ -33,11 +44,7 @@
     overflow: hidden;
     background-color:#d0e6ec;
   }
-  .h1 {
-    text-align: center;
-    text-transform: uppercase;
-    color: #4CAF50;
-  }
+  
   
 
   
