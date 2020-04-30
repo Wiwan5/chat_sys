@@ -1,36 +1,45 @@
 .app {
-    text-align: center;
-    background-image: url("bg.png");
-    height: 90vh;
-  }
-  
-  .font_fill{
-    font-family: "Times New Roman";
-     color:#2a4043;
-  }
+  text-align: center;
+  background-image: url("bg3.jpg");
+  overflow: hidden;
+  background-size: cover;
+  height: 90vh;
+}
+.text {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: rgb(9, 35, 68);
+  font-size: 200px;
+  text-shadow: 5px 5px 5px rgb(102, 171, 236);
+  font-family: "Avenir Next Condensed";
+}
 
-  .login_container{
-    padding: 25px;
-    width: 500px;
-    height: 40vh;
-    border: whitesmoke solid 2px;
-    border-radius: 1rem;
-    background-color: #d0e6ec;
-    margin-top: 30vh;
-    display: inline-block;
-    text-align: center;
-  }
-  
-  .t1{
-    margin-top: 10 px;
-  }  
+.font_fill {
+  font-family: "Times New Roman";
+  color: #2a4043;
+}
 
-  .navbar {
-    height: 10vh;
-    overflow: hidden;
-    background-color:#d0e6ec;
-  }
+.login_container {
+  padding: 25px;
+  width: 500px;
+  height: 40vh;
+  border: whitesmoke solid 2px;
+  border-radius: 1rem;
+  background-color: #d0e6ec;
+  margin-top: 30vh;
+  display: inline-block;
+  text-align: center;
+}
 
-  
+.t1 {
+  margin-top: 10 px;
+}
 
-  
+.navbar {
+  height: 10vh;
+  overflow: hidden;
+  background-color: #d0e6ec;
+}
