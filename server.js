@@ -5,7 +5,7 @@ console.log("listening on port ", APP_PORT);
 const mongoose = require("mongoose");
 const User = require("./models/user");
 const Group = require("./models/group");
-const JoinedGroupInfo = require("./models/groupjoinedinfo");
+const GroupJoined = require("./models/groupJoined");
 const Message = require("./models/message");
 require("dotenv").config();
 
@@ -41,7 +41,7 @@ resGroup = (username, socket) => {
   let k = 0;
   Group.find({}, function (err, data) {
     data.forEach(function (element) {
-      JoinedGroupInfo.findOne(
+      GroupJoined.findOne(
         { username: username, groupname: element.name },
         function (err, data1) {
           groups.push(element.name);
@@ -134,15 +134,12 @@ broadcastChats = (socket) => {
 
 io.on("connection", function (socket) {
   console.log("a user connected");
-
-  // After click enter button , data = username
   socket.on("login", function (data) {
     console.log("login :username");
     login(data, socket);
   });
 
   socket.on("sendMessage", function (data) {
-    // data = {userName,GroupName,timestamp,text}
     console.log("sendMessage:");
     console.log(data);
     var newMessage = new Message(data);
@@ -154,20 +151,17 @@ io.on("connection", function (socket) {
     });
   });
   socket.on("joinGroup", function (data) {
-    //data = {username:'dongglue',groupname:'3L'}
     console.log("joinGroup:");
     console.log(data);
-    JoinedGroupInfo.find(
+    GroupJoined.find(
       { groupname: data.groupname, username: data.username },
       function (err, groups) {
         if (err) {
           console.log(err);
         }
-        // TODO [DB] : Create user if not existed
         if (!groups.length) {
-          // user == [] อันนี้เขียนๆไปก่อน ไม่รู้ js เช๊คไง
           console.log("have group\n");
-          var joinNewGroup = new JoinedGroupInfo({
+          var joinNewGroup = new GroupJoined({
             username: data.username,
             groupname: data.groupname,
           });
@@ -183,10 +177,9 @@ io.on("connection", function (socket) {
   });
 
   socket.on("leaveGroup", function (data) {
-    //data = {username:'dongglue',groupname:'3L'}
     console.log("leaveGroup:");
     console.log(data);
-    JoinedGroupInfo.deleteMany(data, function (err) {
+    GroupJoined.deleteMany(data, function (err) {
       if (err) {
         return err;
       }
@@ -211,7 +204,7 @@ io.on("connection", function (socket) {
           console.log("New Group");
           resGroup(data.username, socket);
         });
-        var newGroupJoin = new JoinedGroupInfo({
+        var newGroupJoin = new GroupJoined({
           username: data.username,
           groupname: data.groupname,
         });
