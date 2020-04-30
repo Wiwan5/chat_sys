@@ -30,12 +30,12 @@ login = (data, socket) => {
       console.log(">>> Create New User");
       var newUser = await User.create({ name: data });
     }
-    EmitAllChats(socket);
-    EmitGroupInfo(data, socket);
+    resChats(socket);
+    resGroup(data, socket);
   });
 };
 
-EmitGroupInfo = (username, socket) => {
+resGroup = (username, socket) => {
   var groups = [];
   var isJoingroup = [];
   let k = 0;
@@ -68,7 +68,7 @@ EmitGroupInfo = (username, socket) => {
   });
 };
 
-EmitAllChats = (socket) => {
+resChats = (socket) => {
   var allChats = {};
   var allChat = [];
   Group.find({}, function (err, allGroups) {
@@ -104,11 +104,11 @@ EmitAllChats = (socket) => {
 BroadcastAllChats = (socket) => {
   var allChats = {};
   var allChat = [];
+  let j = 0;
   Group.find({}, function (err, allGroups) {
     allGroups.forEach(function (data) {
       allChat.push(data.name);
     });
-    let j = 0;
     allChat.forEach(function (data) {
       Message.find({ groupName: data })
         .sort("timestamp")
@@ -150,7 +150,7 @@ io.on("connection", function (socket) {
       if (err) {
         return err;
       }
-      BroadcastAllChats(socket);
+      broadcastChats(socket);
     });
   });
   socket.on("joinGroup", function (data) {
@@ -175,7 +175,7 @@ io.on("connection", function (socket) {
             if (err) {
               return err;
             }
-            EmitGroupInfo(data.username, socket);
+            resGroup(data.username, socket);
           });
         }
       }
@@ -190,7 +190,7 @@ io.on("connection", function (socket) {
       if (err) {
         return err;
       }
-      EmitGroupInfo(data.username, socket);
+      resGroup(data.username, socket);
     });
   });
 
@@ -209,7 +209,7 @@ io.on("connection", function (socket) {
             return err;
           }
           console.log("New Group");
-          EmitGroupInfo(data.username, socket);
+          resGroup(data.username, socket);
         });
         var newGroupJoin = new JoinedGroupInfo({
           username: data.username,
